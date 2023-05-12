@@ -1,19 +1,31 @@
 const { Activity, Country } = require('../db.js');
 
-const createActivity = async (Activity) => {
-    const activity = await Activity.create({
-        name: Activity.name,
-        difficulty: Activity.difficulty,
-        duration: Activity.duration,
-        season: Activity.season,
-    });
-
-    Promise.all(Activity.countries.map(async (country) => {
-        const countryFound = await Country.findOne({
-            where: { id: country.id },
+const createActivity = async ({ name, difficulty, duration, season, countryID }) => {
+    try {
+        const activity = await Activity.create({ name, difficulty, duration, season });
+        const country = await Country.findAll({
+            where: {
+                id: countryID,
+            },
         });
-        await activity.addCountry(countryFound);
+        const addActivity = await activity.addCountries(country);
+        return addActivity;
+    } catch (error) {
+        console.log(error);
     }
-    ));
-    return activity;
+};
+
+const getActivities = async () => {
+    try {
+        const activities = await Activity.findAll();
+        return activities;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+
+module.exports = {
+    createActivity,
+    getActivities,
 };
