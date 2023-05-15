@@ -11,7 +11,7 @@ const initialState = {
     alphabet: ''
 }
 
-export default function reducer(state = initialState, action) {
+const rootReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_COUNTRIES:
             return {
@@ -67,3 +67,5 @@ export default function reducer(state = initialState, action) {
             }
     }
 }
+
+export default rootReducer

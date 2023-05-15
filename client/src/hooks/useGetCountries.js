@@ -1,9 +1,16 @@
-export const useGetCountries = async () => {
-    try {
-        const response = await fetch('http://localhost:3001/countries')
-        const data = await response.json()
-        return data
-    } catch (error) {
-        console.log(error)
-    }
+import { useSelector, useDispatch } from "react-redux";
+import { getCountries } from "../redux/actions";
+import { useEffect } from "react";
+
+const useGetCountries = () => {
+    const dispatch = useDispatch()
+    const countries = useSelector(state => state.countries)
+
+    useEffect(() => {
+        dispatch(getCountries())
+    }, [dispatch])
+
+    return countries
 }
+
+export default useGetCountries

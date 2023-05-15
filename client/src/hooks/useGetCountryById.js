@@ -1,9 +1,22 @@
-export const useGetCountryById = async (id) => {
-    try {
-        const response = await fetch(`http://localhost:3001/countries/${id}`)
-        const data = await response.json()
-        return data
-    } catch (error) {
-        console.log(error)
-    }
+import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { getCountryById, cleanCountry } from "../redux/actions";
+
+const useGetCountryById = () => {
+    const dispatch = useDispatch()
+    const countryDetail = useSelector(state => state.country)
+    const { id } = useParams()
+    const idCountry = id.toUpperCase()
+
+    useEffect(() => {
+        dispatch(getCountryById(idCountry))
+        return () => {
+            dispatch(cleanCountry())
+        }
+    }, [dispatch, idCountry])
+
+    return countryDetail
 }
+
+export default useGetCountryById

@@ -1,0 +1,29 @@
+.card {
+    width: 300px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.card a {
+    text-decoration: none;
+    color: #333;
+}
+
+.cardFlag {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.cardName {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.cardContinent {
+    font-size: 16px;
+    color: #888;
+}

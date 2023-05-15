@@ -1,7 +1,3 @@
-import { useGetCountries } from '../hooks/useGetCountries'
-import { useGetCountryById } from '../hooks/useGetCountryById'
-import { useGetCountryByName } from '../hooks/useGetCountryByName'
-import { useGetActivities } from '../hooks/useGetCountryByActivity'
 export const GET_COUNTRIES = 'GET_COUNTRIES'
 export const GET_COUNTRY_BY_ID = 'GET_COUNTRY_BY_ID'
 export const CLEAN_COUNTRY = 'CLEAN_COUNTRY'
@@ -13,20 +9,22 @@ export const SORT_BY_ALPHABET = 'SORT_BY_ALPHABET'
 
 export const getCountries = () => {
     return async (dispatch) => {
-        const countries = await useGetCountries()
+        const response = await fetch('http://localhost:8080/countries')
+        const data = await response.json()
         dispatch({
             type: GET_COUNTRIES,
-            payload: countries
+            payload: data
         })
     }
 }
 
 export const getCountryById = (id) => {
     return async (dispatch) => {
-        const country = await useGetCountryById(id)
+        const response = await fetch(`http://localhost:8080/countries/${id}`)
+        const data = await response.json()
         dispatch({
             type: GET_COUNTRY_BY_ID,
-            payload: country
+            payload: data
         })
     }
 }
@@ -39,20 +37,22 @@ export const cleanCountry = () => {
 
 export const getCountryByName = (name) => {
     return async (dispatch) => {
-        const country = await useGetCountryByName(name)
+        const response = await fetch(`http://localhost:8080/countries?name=${name}`)
+        const data = await response.json()
         dispatch({
             type: GET_COUNTRY_BY_NAME,
-            payload: country
+            payload: data
         })
     }
 }
 
 export const getActivities = () => {
     return async (dispatch) => {
-        const activities = await useGetActivities()
+        const response = await fetch('http://localhost:8080/activities')
+        const data = await response.json()
         dispatch({
             type: GET_ACTIVITIES,
-            payload: activities
+            payload: data
         })
     }
 }
