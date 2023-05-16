@@ -1,29 +1,39 @@
 .card {
-    width: 300px;
-    border: 1px solid #ccc;
+    width: 200px;
     padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
     text-align: center;
-    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
 }
 
-.card a {
-    text-decoration: none;
-    color: #333;
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .cardFlag {
     width: 100%;
-    max-height: 200px;
+    height: 120px;
     object-fit: cover;
+    border-radius: 4px;
     margin-bottom: 10px;
 }
 
 .cardName {
-    font-size: 24px;
+    font-size: 18px;
+    font-weight: bold;
     margin-bottom: 5px;
+    text-decoration: none;
+    color: #000;
 }
 
 .cardContinent {
-    font-size: 16px;
+    font-size: 14px;
     color: #888;
+}
+
+.cardLinks {
+    text-decoration: none;
+    color: #000;
 }
