@@ -36,7 +36,9 @@ const usePostActivity = () => {
             season: '',
             countries: []
         });
+        console.log(input)
     };
+
 
     return [input, handleInputChange, handleSelectChange, handleSubmit];
 }

@@ -90,7 +90,7 @@ export const sortByActivity = (activity) => {
 
 export const postActivity = (activity) => {
     return async (dispatch) => {
-        const response = await axios.post('http://localhost:8080/activity', activity)
+        const response = await axios.post('http://localhost:8080/activities', activity)
         dispatch({
             type: POST_ACTIVITY,
             payload: response.data

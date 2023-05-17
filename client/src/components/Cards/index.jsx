@@ -5,8 +5,17 @@ import useGetCountries from '../../hooks/useGetCountries';
 import Filters from '../Filters';
 import Pagination from '../Pagination';
 
-const Cards = () => {
-    const [page, setPage] = useState(getSavedPage() || 1);
+const Cards = ({ currentPage, onPageChange }) => {
+    const savePage = (page) => {
+        localStorage.setItem('currentPage', page.toString());
+    };
+
+    const getSavedPage = () => {
+        const savedPage = localStorage.getItem('currentPage');
+        return savedPage ? parseInt(savedPage, 10) : null;
+    };
+
+    const [page, setPage] = useState(getSavedPage() || currentPage || 1);
     const countries = useGetCountries();
     const [applyFilter, setApplyFilter] = useState(false);
 
@@ -23,6 +32,7 @@ const Cards = () => {
 
     const handlePageChange = (pageNumber) => {
         setPage(pageNumber);
+        onPageChange(pageNumber);
     };
 
     useEffect(() => {
@@ -36,22 +46,24 @@ const Cards = () => {
         }
     }, [applyFilter]);
 
-    function savePage(page) {
-        localStorage.setItem('currentPage', page.toString());
-    }
-
-    function getSavedPage() {
-        const savedPage = localStorage.getItem('currentPage');
-        return savedPage ? parseInt(savedPage, 10) : null;
-    }
+    useEffect(() => {
+        if (currentPage) {
+            setPage(currentPage);
+        }
+    }, [currentPage]);
 
     return (
         <>
             <Filters setApplyFilter={setApplyFilter} />
             <div className={Style.cards}>
-                {displayedCountries.map((c, i) => (
-                    <Card key={i} name={c.name} flag={c.flag} continent={c.continent} id={c.id} />
-                ))}
+                {displayedCountries.length > 0 ? (
+                    displayedCountries.map((c, i) => (
+                        <Card key={i} name={c.name} flag={c.flag} continent={c.continent} id={c.id} />
+                    ))
+                ) : (
+                    <div className={Style.spinnerLoading}></div>
+                )
+                }
             </div>
             <div className={Style.paginationContainer}>
                 <Pagination currentPage={page} totalPages={maxPage} onPageChange={handlePageChange} />

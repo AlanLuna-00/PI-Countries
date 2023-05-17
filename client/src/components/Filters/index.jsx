@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Style from "./style.module.css";
 import { useDispatch } from "react-redux";
 import { sortByContinent, sortByPopulation, sortByAlphabet, sortByActivity } from "../../redux/actions";
@@ -53,6 +53,14 @@ const Filters = ({ setApplyFilter }) => {
         setApplyFilter(true);
     };
 
+    useEffect(() => {
+        localStorage.setItem('selectedSort', selectedSort);
+        localStorage.setItem('selectedPopulation', selectedPopulation);
+        localStorage.setItem('selectedContinent', selectedContinent);
+        localStorage.setItem('selectedActivity', selectedActivity);
+    }, [selectedSort, selectedPopulation, selectedContinent, selectedActivity]);
+
+
     return (
         <div className={Style.filtersContainer}>
             <div className={Style.selectContainer}>
@@ -91,7 +99,6 @@ const Filters = ({ setApplyFilter }) => {
                     {activities.map(a => <option key={a.name} value={a.name} className={Style.option}>{a.name}</option>)}
                 </select>
             </div>
-            {/* clean filters */}
             <div className={Style.selectContainer}>
                 <button id="clean" className={Style.button} onClick={handleCleanFilters}>Clean Filters</button>
             </div>

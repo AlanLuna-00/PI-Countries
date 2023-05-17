@@ -1,9 +1,21 @@
-export const useGetCountryByName = async (name) => {
-    try {
-        const response = await fetch(`http://localhost:8080/countries?name=${name}`)
-        const data = await response.json()
-        return data
-    } catch (error) {
-        console.log(error)
-    }
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getCountryByName } from '../redux/actions';
+
+const useGetCountryByName = () => {
+    const dispatch = useDispatch();
+    const [input, setInput] = useState('');
+
+    const handleInputChange = (e) => {
+        setInput(e.target.value);
+    };
+
+    useEffect(() => {
+        dispatch(getCountryByName(input));
+    }, [dispatch, input]);
+
+
+    return [input, handleInputChange];
 }
+
+export default useGetCountryByName;

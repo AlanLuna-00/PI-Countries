@@ -1,10 +1,20 @@
 import usePostActivity from "../../hooks/usePostActivity";
 import useGetCountries from "../../hooks/useGetCountries";
 import Style from "./style.module.css";
+import { useState } from "react";
 
 const Form = () => {
     const [input, handleInputChange, handleSelectChange, handleSubmit] = usePostActivity();
     const countries = useGetCountries();
+    const [selectedCountries, setSelectedCountries] = useState([]);
+
+    const handleCountrySelection = (e) => {
+        const selectedCountryId = e.target.value;
+        const selectedCountry = countries.find((c) => c.id === selectedCountryId);
+        if (selectedCountry) {
+            setSelectedCountries([...selectedCountries, selectedCountry]);
+        }
+    };
 
     return (
         <div className={Style.formContainer}>
@@ -55,14 +65,42 @@ const Form = () => {
                     </select>
                 </div>
                 <div className={Style.inputContainer}>
-                    <label htmlFor="countries" className={Style.label}>Countries</label>
-                    <select id='countries' name="countries" className={Style.select} onChange={handleSelectChange} required>
-                        <option value='' className={Style.option}>Select countries</option>
+                    <label htmlFor="countries" className={Style.label}>
+                        Countries
+                    </label>
+                    <select
+                        id="countries"
+                        name="countries"
+                        className={Style.select}
+                        onChange={(e) => {
+                            handleSelectChange(e);
+                            handleCountrySelection(e);
+                        }}
+                        multiple
+                        required
+                    >
+                        <option value="" className={Style.option}>
+                            Select countries
+                        </option>
                         {countries.map((c, i) => (
-                            <option key={i} value={c.id} className={Style.option}>{c.name}</option>
+                            <option key={i} value={c.id} className={Style.option}>
+                                {c.name}
+                            </option>
                         ))}
                     </select>
                 </div>
+                {selectedCountries.length > 0 && (
+                    <div className={Style.selectedCountriesContainer}>
+                        <p className={Style.selectedCountriesLabel}>Selected Countries:</p>
+                        <ul className={Style.selectedCountriesList}>
+                            {selectedCountries.map((country, index) => (
+                                <li key={index} className={Style.selectedCountryItem}>
+                                    {country.name}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
                 <button type="submit" className={Style.button}>Create activity</button>
             </form>
         </div>

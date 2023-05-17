@@ -27,9 +27,10 @@ const rootReducer = (state = initialState, action) => {
                 country: {}
             }
         case GET_COUNTRY_BY_NAME:
+            let countryFounded = action.payload.length > 0 ? action.payload : [...state.allCountries];
             return {
                 ...state,
-                countries: action.payload
+                countries: countryFounded,
             }
         case GET_ACTIVITIES:
             return {
