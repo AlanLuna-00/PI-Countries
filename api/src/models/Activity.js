@@ -4,7 +4,7 @@ module.exports = (sequelize) => {
     sequelize.define('activity', {
         id: {
             type: DataTypes.UUID,
-            auto_increment: true,
+            // autoIncrement: true, // Corrección aquí
             primaryKey: true,
             defaultValue: DataTypes.UUIDV4,
             allowNull: false,
@@ -23,11 +23,13 @@ module.exports = (sequelize) => {
             allowNull: false,
         },
         season: {
-            type: DataTypes.ENUM('summer', 'autumn', 'winter', 'spring'),
+            type: DataTypes.ENUM('Summer', 'Autumn', 'Winter', 'Spring'),
             allowNull: false,
         },
-    },
-        {
-            timestamps: false,
-        });
-}
+        countriesID: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+        },
+    }, {
+        timestamps: false,
+    });
+};

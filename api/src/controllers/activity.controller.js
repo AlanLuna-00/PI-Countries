@@ -1,9 +1,9 @@
 const { createActivity, getActivities, } = require('../services/activity.services');
 
 const postActivity = async (req, res) => {
-    const { name, difficulty, duration, season, countryID } = req.body;
+    const { name, difficulty, duration, season, countriesID } = req.body;
     try {
-        const activity = await createActivity({ name, difficulty, duration, season, countryID });
+        const activity = await createActivity({ name, difficulty, duration, season, countriesID });
         res.status(200).send('Activity created successfully')
     } catch (error) {
         res.status(500).json({ message: 'Error creating activity' });

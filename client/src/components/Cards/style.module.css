@@ -1,7 +1,6 @@
 .cards {
     display: grid;
     width: 70%;
-    height: 60vh;
     margin: 0 auto;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
@@ -39,32 +38,6 @@
     font-size: 16px;
 }
 
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-}
-
-.pagination button {
-    padding: 8px 12px;
-    margin: 0 5px;
-    font-size: 14px;
-    border: none;
-    background-color: transparent;
-    color: #333;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-.pagination button:hover {
-    color: #555;
-}
-
-.pagination button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
 
 @media screen and (max-width: 768px) {
     .cards {

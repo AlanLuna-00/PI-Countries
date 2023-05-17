@@ -2,12 +2,15 @@ import { useEffect, useState } from 'react';
 import Style from './style.module.css';
 import Card from '../Card/index';
 import useGetCountries from '../../hooks/useGetCountries';
+import Filters from '../Filters';
+import Pagination from '../Pagination';
 
 const Cards = () => {
     const [page, setPage] = useState(getSavedPage() || 1);
     const countries = useGetCountries();
+    const [applyFilter, setApplyFilter] = useState(false);
 
-    const CARDS_PER_PAGE = 10; // Cambia este valor según tus necesidades
+    const CARDS_PER_PAGE = 10;
 
     const maxPage = Math.ceil(countries.length / CARDS_PER_PAGE);
 
@@ -18,30 +21,20 @@ const Cards = () => {
         indexOfLastCard
     );
 
-    const handlePrevPage = () => {
-        if (page > 1) {
-            setPage(page - 1);
-        }
-    };
-
-    const handleNextPage = () => {
-        if (page < maxPage) {
-            setPage(page + 1);
-        }
-    };
-
-    const handleFirstPage = () => {
-        setPage(1);
-    };
-
-    const handleLastPage = () => {
-        setPage(maxPage);
+    const handlePageChange = (pageNumber) => {
+        setPage(pageNumber);
     };
 
     useEffect(() => {
-        // Guarda la página actual en localStorage
         savePage(page);
     }, [page]);
+
+    useEffect(() => {
+        if (applyFilter) {
+            setPage(1);
+            setApplyFilter(false);
+        }
+    }, [applyFilter]);
 
     function savePage(page) {
         localStorage.setItem('currentPage', page.toString());
@@ -54,35 +47,14 @@ const Cards = () => {
 
     return (
         <>
-            <div>Página {page}</div>
+            <Filters setApplyFilter={setApplyFilter} />
             <div className={Style.cards}>
                 {displayedCountries.map((c, i) => (
-                    <Card
-                        key={i}
-                        name={c.name}
-                        flag={c.flag}
-                        continent={c.continent}
-                        id={c.id}
-                    />
+                    <Card key={i} name={c.name} flag={c.flag} continent={c.continent} id={c.id} />
                 ))}
             </div>
-            <div className={Style.pagination}>
-                {page > 1 && (
-                    <button onClick={handleFirstPage} disabled={page === 1}>
-                        &lt;&lt; 1
-                    </button>
-                )}
-                <button onClick={handlePrevPage} disabled={page === 1}>
-                    Anterior
-                </button>
-                <button onClick={handleNextPage} disabled={page === maxPage}>
-                    Siguiente
-                </button>
-                {page < maxPage && (
-                    <button onClick={handleLastPage} disabled={page === maxPage}>
-                        25 &gt;&gt;
-                    </button>
-                )}
+            <div className={Style.paginationContainer}>
+                <Pagination currentPage={page} totalPages={maxPage} onPageChange={handlePageChange} />
             </div>
         </>
     );

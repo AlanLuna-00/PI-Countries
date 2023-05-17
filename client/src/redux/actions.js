@@ -1,3 +1,4 @@
+import axios from 'axios'
 export const GET_COUNTRIES = 'GET_COUNTRIES'
 export const GET_COUNTRY_BY_ID = 'GET_COUNTRY_BY_ID'
 export const CLEAN_COUNTRY = 'CLEAN_COUNTRY'
@@ -6,6 +7,8 @@ export const GET_ACTIVITIES = 'GET_ACTIVITIES'
 export const SORT_BY_CONTINENT = 'SORT_BY_CONTINENT'
 export const SORT_BY_POPULATION = 'SORT_BY_POPULATION'
 export const SORT_BY_ALPHABET = 'SORT_BY_ALPHABET'
+export const SORT_BY_ACTIVITY = 'SORT_BY_ACTIVITY'
+export const POST_ACTIVITY = 'POST_ACTIVITY'
 
 export const getCountries = () => {
     return async (dispatch) => {
@@ -78,3 +81,19 @@ export const sortByAlphabet = (alphabet) => {
     }
 }
 
+export const sortByActivity = (activity) => {
+    return {
+        type: SORT_BY_ACTIVITY,
+        payload: activity
+    }
+}
+
+export const postActivity = (activity) => {
+    return async (dispatch) => {
+        const response = await axios.post('http://localhost:8080/activity', activity)
+        dispatch({
+            type: POST_ACTIVITY,
+            payload: response.data
+        })
+    }
+}

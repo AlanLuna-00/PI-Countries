@@ -10,7 +10,9 @@ const useGetCountryById = () => {
     const idCountry = id.toUpperCase()
 
     useEffect(() => {
-        dispatch(getCountryById(idCountry))
+        setTimeout(() => {
+            dispatch(getCountryById(idCountry))
+        }, 1000)
         return () => {
             dispatch(cleanCountry())
         }
