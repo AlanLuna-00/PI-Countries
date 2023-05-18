@@ -1,4 +1,19 @@
-import { GET_COUNTRIES, GET_COUNTRY_BY_ID, CLEAN_COUNTRY, GET_COUNTRY_BY_NAME, GET_ACTIVITIES, SORT_BY_CONTINENT, SORT_BY_POPULATION, SORT_BY_ALPHABET, SORT_BY_ACTIVITY, POST_ACTIVITY } from "./actions"
+import {
+    GET_COUNTRIES,
+    GET_COUNTRY_BY_ID,
+    CLEAN_COUNTRY,
+    GET_COUNTRY_BY_NAME,
+    GET_ACTIVITIES,
+    SORT_BY_CONTINENT,
+    SORT_BY_POPULATION,
+    SORT_BY_ALPHABET,
+    SORT_BY_ACTIVITY,
+    POST_ACTIVITY,
+    SET_FILTER_CONTINENT,
+    SET_FILTER_POPULATION,
+    SET_FILTER_ALPHABET,
+    SET_FILTER_ACTIVITY
+} from './actions';
 
 const initialState = {
     countries: [], // se modifica
@@ -6,6 +21,10 @@ const initialState = {
     country: {},
     activities: [],
     allActivities: [],
+    filterContinent: 'all',
+    filterPopulation: 'all',
+    filterAlphabet: 'all',
+    filterActivity: 'all'
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -72,6 +91,26 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 countries: sortedCountriesByActivity,
+            };
+        case SET_FILTER_CONTINENT:
+            return {
+                ...state,
+                filterContinent: action.payload
+            };
+        case SET_FILTER_POPULATION:
+            return {
+                ...state,
+                filterPopulation: action.payload
+            };
+        case SET_FILTER_ALPHABET:
+            return {
+                ...state,
+                filterAlphabet: action.payload
+            };
+        case SET_FILTER_ACTIVITY:
+            return {
+                ...state,
+                filterActivity: action.payload
             };
         default:
             return state;

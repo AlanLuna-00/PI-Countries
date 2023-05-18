@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Style from './style.module.css';
 import Card from '../Card/index';
 import useGetCountries from '../../hooks/useGetCountries';
 import Filters from '../Filters';
 import Pagination from '../Pagination';
+import { useSelector } from 'react-redux';
 
-const Cards = ({ currentPage, onPageChange }) => {
+const Cards = ({ currentPage, onPageChange, setCurrentPage }) => {
     const savePage = (page) => {
         localStorage.setItem('currentPage', page.toString());
     };
@@ -15,9 +16,8 @@ const Cards = ({ currentPage, onPageChange }) => {
         return savedPage ? parseInt(savedPage, 10) : null;
     };
 
-    const [page, setPage] = useState(getSavedPage() || currentPage || 1);
+    const [page, setPage] = useState(getSavedPage() || currentPage);
     const countries = useGetCountries();
-    const [applyFilter, setApplyFilter] = useState(false);
 
     const CARDS_PER_PAGE = 10;
 
@@ -40,21 +40,14 @@ const Cards = ({ currentPage, onPageChange }) => {
     }, [page]);
 
     useEffect(() => {
-        if (applyFilter) {
-            setPage(1);
-            setApplyFilter(false);
-        }
-    }, [applyFilter]);
-
-    useEffect(() => {
-        if (currentPage) {
+        if (currentPage !== page) {
             setPage(currentPage);
         }
-    }, [currentPage]);
+    }, [currentPage, page]);
 
     return (
         <>
-            <Filters setApplyFilter={setApplyFilter} />
+            <Filters setCurrentPage={setCurrentPage} />
             <div className={Style.cards}>
                 {displayedCountries.length > 0 ? (
                     displayedCountries.map((c, i) => (
@@ -62,8 +55,7 @@ const Cards = ({ currentPage, onPageChange }) => {
                     ))
                 ) : (
                     <div className={Style.spinnerLoading}></div>
-                )
-                }
+                )}
             </div>
             <div className={Style.paginationContainer}>
                 <Pagination currentPage={page} totalPages={maxPage} onPageChange={handlePageChange} />

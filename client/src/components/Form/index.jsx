@@ -16,6 +16,14 @@ const Form = () => {
         }
     };
 
+    const handleCountryRemoval = (countryId) => {
+        const updatedSelectedCountries = selectedCountries.filter(
+            (country) => country.id !== countryId
+        );
+        setSelectedCountries(updatedSelectedCountries);
+    };
+
+
     return (
         <div className={Style.formContainer}>
             <form onSubmit={handleSubmit} className={Style.form}>
@@ -89,18 +97,18 @@ const Form = () => {
                         ))}
                     </select>
                 </div>
-                {selectedCountries.length > 0 && (
-                    <div className={Style.selectedCountriesContainer}>
-                        <p className={Style.selectedCountriesLabel}>Selected Countries:</p>
-                        <ul className={Style.selectedCountriesList}>
-                            {selectedCountries.map((country, index) => (
-                                <li key={index} className={Style.selectedCountryItem}>
-                                    {country.name}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
+                {selectedCountries.map((country, index) => (
+                    <li key={index} className={Style.selectedCountryItem}>
+                        {country.name}
+                        <span
+                            className={Style.removeCountryButton}
+                            onClick={() => handleCountryRemoval(country.id)}
+                        >
+                            ❌
+                        </span>
+                    </li>
+                ))}
+
                 <button type="submit" className={Style.button}>Create activity</button>
             </form>
         </div>
