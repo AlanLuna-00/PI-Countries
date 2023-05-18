@@ -4,9 +4,9 @@ import Style from "./style.module.css";
 import { useState } from "react";
 
 const Form = () => {
-    const [input, handleInputChange, handleSelectChange, handleSubmit] = usePostActivity();
-    const countries = useGetCountries();
     const [selectedCountries, setSelectedCountries] = useState([]);
+    const [input, handleInputChange, handleSelectChange, handleSubmit] = usePostActivity({ setSelectedCountries });
+    const countries = useGetCountries();
 
     const handleCountrySelection = (e) => {
         const selectedCountryId = e.target.value;
@@ -66,10 +66,10 @@ const Form = () => {
                     <label htmlFor="season" className={Style.label}>Season</label>
                     <select id='season' name="season" className={Style.select} onChange={handleInputChange} required>
                         <option value='' className={Style.option}>Select season</option>
-                        <option value='summer' className={Style.option}>Summer</option>
-                        <option value='autumn' className={Style.option}>Autumn</option>
-                        <option value='winter' className={Style.option}>Winter</option>
-                        <option value='spring' className={Style.option}>Spring</option>
+                        <option value='Summer' className={Style.option}>Summer</option>
+                        <option value='Autumn' className={Style.option}>Autumn</option>
+                        <option value='Winter' className={Style.option}>Winter</option>
+                        <option value='Spring' className={Style.option}>Spring</option>
                     </select>
                 </div>
                 <div className={Style.inputContainer}>

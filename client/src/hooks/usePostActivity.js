@@ -1,15 +1,17 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { postActivity } from '../redux/actions';
+import { useNavigate } from 'react-router-dom';
 
-const usePostActivity = () => {
+const usePostActivity = ({ setSelectedCountries }) => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [input, setInput] = useState({
         name: '',
         difficulty: '',
         duration: '',
         season: '',
-        countries: []
+        countriesID: []
     });
 
     const handleInputChange = (e) => {
@@ -22,7 +24,7 @@ const usePostActivity = () => {
     const handleSelectChange = (e) => {
         setInput({
             ...input,
-            countries: [...input.countries, e.target.value]
+            countriesID: [...input.countriesID, e.target.value]
         });
     };
 
@@ -34,8 +36,10 @@ const usePostActivity = () => {
             difficulty: '',
             duration: '',
             season: '',
-            countries: []
+            countriesID: []
         });
+        setSelectedCountries([]);
+        navigate('/home');
         console.log(input)
     };
 
