@@ -8,7 +8,7 @@ const useGetActivities = () => {
 
     useEffect(() => {
         dispatch(getActivities())
-    }, [dispatch])
+    }, [dispatch,])
 
     return activities
 }

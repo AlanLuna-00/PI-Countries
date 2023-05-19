@@ -11,7 +11,9 @@ const useGetCountryByName = () => {
     };
 
     useEffect(() => {
-        dispatch(getCountryByName(input));
+        if (input) {
+            dispatch(getCountryByName(input));
+        }
     }, [dispatch, input]);
 
 

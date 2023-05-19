@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import Style from './style.module.css';
 import Card from '../Card/index';
-import useGetCountries from '../../hooks/useGetCountries';
 import Filters from '../Filters';
 import Pagination from '../Pagination';
-import { useSelector } from 'react-redux';
+import useGetCountries from '../../hooks/useGetCountries';
+
 
 const Cards = ({ currentPage, onPageChange, setCurrentPage }) => {
     const savePage = (page) => {
         localStorage.setItem('currentPage', page.toString());
     };
+
+    const countries = useGetCountries();
 
     const getSavedPage = () => {
         const savedPage = localStorage.getItem('currentPage');
@@ -17,7 +19,6 @@ const Cards = ({ currentPage, onPageChange, setCurrentPage }) => {
     };
 
     const [page, setPage] = useState(getSavedPage() || currentPage);
-    const countries = useGetCountries();
 
     const CARDS_PER_PAGE = 10;
 

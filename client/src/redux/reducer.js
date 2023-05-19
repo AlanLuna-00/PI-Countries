@@ -9,10 +9,6 @@ import {
     SORT_BY_ALPHABET,
     SORT_BY_ACTIVITY,
     POST_ACTIVITY,
-    SET_FILTER_CONTINENT,
-    SET_FILTER_POPULATION,
-    SET_FILTER_ALPHABET,
-    SET_FILTER_ACTIVITY
 } from './actions';
 
 const initialState = {
@@ -91,26 +87,6 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 countries: sortedCountriesByActivity,
-            };
-        case SET_FILTER_CONTINENT:
-            return {
-                ...state,
-                filterContinent: action.payload
-            };
-        case SET_FILTER_POPULATION:
-            return {
-                ...state,
-                filterPopulation: action.payload
-            };
-        case SET_FILTER_ALPHABET:
-            return {
-                ...state,
-                filterAlphabet: action.payload
-            };
-        case SET_FILTER_ACTIVITY:
-            return {
-                ...state,
-                filterActivity: action.payload
             };
         default:
             return state;

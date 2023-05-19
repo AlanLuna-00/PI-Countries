@@ -1,67 +1,66 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import Style from './style.module.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { sortByContinent, sortByPopulation, sortByAlphabet, sortByActivity, setFilterContinent, setFilterPopulation } from '../../redux/actions';
+import { useDispatch } from 'react-redux';
+import { sortByContinent, sortByPopulation, sortByAlphabet, sortByActivity } from '../../redux/actions';
 import useGetActivities from '../../hooks/useGetActivities';
 
 const Filters = ({ setCurrentPage }) => {
     const dispatch = useDispatch();
     const activities = useGetActivities();
 
-    const filterContinent = useSelector((state) => state.filterContinent);
-    const filterPopulation = useSelector((state) => state.filterPopulation);
+    const [selectedSort, setSelectedSort] = useState(localStorage.getItem('selectedSort') || 'sort');
+    const [selectedPopulation, setSelectedPopulation] = useState(localStorage.getItem('selectedPopulation') || 'population');
+    const [selectedContinent, setSelectedContinent] = useState(localStorage.getItem('selectedContinent') || 'all');
+    const [selectedActivity, setSelectedActivity] = useState(localStorage.getItem('selectedActivity') || 'all');
 
-    useEffect(() => {
-        // Recuperar los valores de los filtros desde el LocalStorage al montar el componente
-        const savedContinent = localStorage.getItem('filterContinent');
-        const savedPopulation = localStorage.getItem('filterPopulation');
-
-        if (savedContinent) {
-            dispatch(setFilterContinent(savedContinent));
-        }
-
-        if (savedPopulation) {
-            dispatch(setFilterPopulation(savedPopulation));
-        }
-    }, []);
-
-    const handleSortByContinent = (e) => {
+    const handleSortByAlphabet = (e) => {
         const value = e.target.value;
-        dispatch(sortByContinent(value));
-        dispatch(setFilterContinent(value));
+        setSelectedSort(value);
+        localStorage.setItem('selectedSort', value);
+        dispatch(sortByAlphabet(value));
         setCurrentPage(1);
-        localStorage.setItem('filterContinent', value); // Guardar el valor en el LocalStorage
     };
 
     const handleSortByPopulation = (e) => {
         const value = e.target.value;
+        setSelectedPopulation(value);
+        localStorage.setItem('selectedPopulation', value);
         dispatch(sortByPopulation(value));
-        dispatch(setFilterPopulation(value));
         setCurrentPage(1);
-        localStorage.setItem('filterPopulation', value); // Guardar el valor en el LocalStorage
     };
 
-    const handleSortByAlphabet = (e) => {
+    const handleSortByContinent = (e) => {
         const value = e.target.value;
-        dispatch(sortByAlphabet(value));
+        setSelectedContinent(value);
+        localStorage.setItem('selectedContinent', value);
+        dispatch(sortByContinent(value));
         setCurrentPage(1);
     };
 
     const handleSortByActivities = (e) => {
         const value = e.target.value;
+        setSelectedActivity(value);
+        localStorage.setItem('selectedActivity', value);
         dispatch(sortByActivity(value));
         setCurrentPage(1);
     };
 
     const handleCleanFilters = () => {
+        setSelectedSort('sort');
+        setSelectedPopulation('population');
+        setSelectedContinent('all');
+        setSelectedActivity('all');
         dispatch(sortByContinent('all'));
         dispatch(sortByPopulation('population'));
         dispatch(sortByAlphabet('sort'));
         dispatch(sortByActivity('all'));
         setCurrentPage(1);
-        localStorage.removeItem('filterContinent'); // Eliminar el valor del LocalStorage
-        localStorage.removeItem('filterPopulation'); // Eliminar el valor del LocalStorage
+        localStorage.removeItem('selectedSort');
+        localStorage.removeItem('selectedPopulation');
+        localStorage.removeItem('selectedContinent');
+        localStorage.removeItem('selectedActivity');
     };
+
     return (
         <div className={Style.filtersContainer}>
             <div className={Style.selectContainer}>
@@ -72,7 +71,7 @@ const Filters = ({ setCurrentPage }) => {
                     id="sort"
                     name="Sort"
                     className={Style.select}
-                    defaultValue="sort"
+                    value={selectedSort}
                     onChange={handleSortByAlphabet}
                 >
                     <option value="sort" className={Style.option}>
@@ -94,7 +93,7 @@ const Filters = ({ setCurrentPage }) => {
                     id="population"
                     name="Population"
                     className={Style.select}
-                    defaultValue="population"
+                    value={selectedPopulation}
                     onChange={handleSortByPopulation}
                 >
                     <option value="population" className={Style.option}>
@@ -116,7 +115,7 @@ const Filters = ({ setCurrentPage }) => {
                     id="continents"
                     name="Continents"
                     className={Style.select}
-                    defaultValue="all"
+                    value={selectedContinent}
                     onChange={handleSortByContinent}
                 >
                     <option value="all" className={Style.option}>
@@ -153,7 +152,7 @@ const Filters = ({ setCurrentPage }) => {
                     id="activities"
                     name="Activities"
                     className={Style.select}
-                    defaultValue="all"
+                    value={selectedActivity}
                     onChange={handleSortByActivities}
                 >
                     <option value="all" className={Style.option}>

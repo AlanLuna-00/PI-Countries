@@ -9,10 +9,6 @@ export const SORT_BY_POPULATION = 'SORT_BY_POPULATION'
 export const SORT_BY_ALPHABET = 'SORT_BY_ALPHABET'
 export const SORT_BY_ACTIVITY = 'SORT_BY_ACTIVITY'
 export const POST_ACTIVITY = 'POST_ACTIVITY'
-export const SET_FILTER_CONTINENT = 'SET_FILTER_CONTINENT'
-export const SET_FILTER_POPULATION = 'SET_FILTER_POPULATION'
-export const SET_FILTER_ALPHABET = 'SET_FILTER_ALPHABET'
-export const SET_FILTER_ACTIVITY = 'SET_FILTER_ACTIVITY'
 
 export const getCountries = () => {
     return async (dispatch) => {
@@ -100,32 +96,4 @@ export const postActivity = (activity) => {
             payload: response.data
         })
     }
-}
-
-export const setFilterContinent = (continent) => {
-    return {
-        type: SET_FILTER_CONTINENT,
-        payload: continent
-    };
-};
-
-export const setFilterPopulation = (population) => {
-    return {
-        type: SET_FILTER_POPULATION,
-        payload: population
-    };
-};
-
-export const setFilterAlphabet = (alphabet) => {
-    return {
-        type: SET_FILTER_ALPHABET,
-        payload: alphabet
-    };
-}
-
-export const setFilterActivity = (activity) => {
-    return {
-        type: SET_FILTER_ACTIVITY,
-        payload: activity
-    };
 }

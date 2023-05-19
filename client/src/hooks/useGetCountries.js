@@ -3,14 +3,16 @@ import { getCountries } from "../redux/actions";
 import { useEffect } from "react";
 
 const useGetCountries = () => {
-    const dispatch = useDispatch()
-    const countries = useSelector(state => state.countries)
+    const dispatch = useDispatch();
+    const countries = useSelector(state => state.countries);
 
     useEffect(() => {
-        dispatch(getCountries())
-    }, [dispatch])
+        if (!countries.length) {
+            dispatch(getCountries());
+        }
+    }, [countries, dispatch]);
 
-    return countries
-}
+    return countries;
+};
 
-export default useGetCountries
+export default useGetCountries;

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../NavBar';
 import Cards from '../Cards';
 
+
 const Home = () => {
     const [currentPage, setCurrentPage] = useState(1);
-
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
