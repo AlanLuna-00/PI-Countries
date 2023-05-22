@@ -1,0 +1,27 @@
+.searchBarContainer {
+    display: flex;
+    align-items: center;
+}
+
+.searchBar {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+.searchBar:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+.searchButton {
+    padding: 8px;
+    border: none;
+    background-color: #302e2e;
+    color: white;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}

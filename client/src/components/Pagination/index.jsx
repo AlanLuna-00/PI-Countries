@@ -1,24 +1,10 @@
-import { useState } from 'react';
 import Style from './style.module.css';
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-    const [inputPage, setInputPage] = useState('');
-
-    const handleInputChange = (e) => {
-        setInputPage(e.target.value);
-    };
-
     const handlePageChange = (pageNumber) => {
         onPageChange(pageNumber);
     };
 
-    const handleGoToPage = () => {
-        const pageNumber = parseInt(inputPage, 10);
-        if (pageNumber >= 1 && pageNumber <= totalPages) {
-            handlePageChange(pageNumber);
-            setInputPage('');
-        }
-    };
 
     const renderPageNumbers = () => {
         const pageNumbers = [];
@@ -71,17 +57,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             >
                 {totalPages} &gt;&gt;
             </button>
-            <div className={Style.goToPage}>
-                Ir a la página:
-                <input
-                    type="number"
-                    value={inputPage}
-                    onChange={handleInputChange}
-                    min="1"
-                    max={totalPages}
-                />
-                <button onClick={handleGoToPage}>Ir</button>
-            </div>
         </div>
     );
 };

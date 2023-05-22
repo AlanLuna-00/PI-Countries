@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../NavBar';
 import Cards from '../Cards';
+import { useDispatch } from 'react-redux';
+import { getActivities } from '../../redux/actions';
 
 
 const Home = () => {
@@ -15,6 +17,12 @@ const Home = () => {
             setCurrentPage(parseInt(savedPage, 10));
         }
     }, []);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getActivities());
+    }, [dispatch]);
 
     useEffect(() => {
         localStorage.setItem('currentPage', currentPage.toString());

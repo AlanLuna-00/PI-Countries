@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { postActivity } from '../redux/actions';
+import { getCountries, postActivity } from '../redux/actions';
 import { useNavigate } from 'react-router-dom';
 
 const usePostActivity = ({ setSelectedCountries }) => {
@@ -9,7 +9,7 @@ const usePostActivity = ({ setSelectedCountries }) => {
     const [input, setInput] = useState({
         name: '',
         difficulty: '',
-        duration: '',
+        duration: null,
         season: '',
         countriesID: []
     });
@@ -28,6 +28,15 @@ const usePostActivity = ({ setSelectedCountries }) => {
         });
     };
 
+    const handleDeleteCountry = (countryId) => {
+        setInput({
+            ...input,
+            countriesID: input.countriesID.filter((country) => country !== countryId)
+        });
+        console.log(input);
+    };
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(postActivity(input));
@@ -40,11 +49,14 @@ const usePostActivity = ({ setSelectedCountries }) => {
         });
         setSelectedCountries([]);
         navigate('/home');
-        console.log(input)
+        console.log(input);
     };
 
+    useEffect(() => {
+        dispatch(getCountries());
+    }, [dispatch]);
 
-    return [input, handleInputChange, handleSelectChange, handleSubmit];
-}
+    return [input, handleInputChange, handleSelectChange, handleDeleteCountry, handleSubmit];
+};
 
 export default usePostActivity;

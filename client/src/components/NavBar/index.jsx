@@ -2,12 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Style from './style.module.css';
 import SearchBar from '../SearchBar';
+import logo from '../../assets/title.png'
+
 
 const Navbar = ({ setCurrentPage }) => {
     return (
         <nav className={Style.navbar}>
             <div className={Style.leftSection}>
-                <h1 className={Style.title}>THE FUCKING WORLD</h1>
+                {/* src in assets */}
+                <img src={logo} alt='THE FUCKING WORLD' className={Style.title}></img>
             </div>
             <div className={Style.rightSection}>
                 <ul className={Style.links}>

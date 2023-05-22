@@ -7,8 +7,10 @@ const useGetCountries = () => {
     const countries = useSelector(state => state.countries);
 
     useEffect(() => {
-        if (!countries.length) {
-            dispatch(getCountries());
+        if (!countries?.length) {
+            setTimeout(() => {
+                dispatch(getCountries());
+            }, 1500)
         }
     }, [countries, dispatch]);
 

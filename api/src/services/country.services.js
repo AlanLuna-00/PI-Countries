@@ -6,7 +6,10 @@ const { Op } = require('sequelize');
 
 const getCountriesApi = async () => {
     try {
-        let api = await axios.get('https://restcountries.com/v3/all');
+        let api = await axios.get('https://rest-countries.up.railway.app/v3/all');
+        // let api = await axios.get('https://rest-countries.up.railway.app/v2/all'); V2
+
+        // v3
         api = api.data?.map((c) => {
             return {
                 id: c.cca3,
@@ -19,6 +22,40 @@ const getCountriesApi = async () => {
                 population: c.population,
             };
         });
+
+        // v2
+
+        // api = api.data?.map((c) => {
+        //     return {
+        //         id: c.alpha3Code,
+        //         name: c.name,
+        //         flag: c.flag,
+        //         continent: c.region,
+        //         capital: c.capital ? c.capital : 'No capital',
+        //         subregion: c.subregion,
+        //         area: c.area,
+        //         population: c.population,
+        //     };
+        // });
+
+        // uso countries.json 
+
+        // let api = require('../countries.json');
+
+        // api = api.map((c) => {
+        //     return {
+        //         id: c.cca3,
+        //         name: c.name.common,
+        //         flag: c.flags[0],
+        //         continent: c.continents[0],
+        //         capital: c.capital ? c.capital[0] : 'No capital',
+        //         subregion: c.subregion,
+        //         area: c.area,
+        //         population: c.population,
+        //     };
+        // });
+
+
 
         let db = await Country.findAll();
         if (db.length === 0) {

@@ -5,14 +5,12 @@ const formValidate = (values) => {
         errors.name = "Name is required";
     } else if (/[^A-Za-z0-9 ]+/g.test(values.name)) {
         errors.name = "Name must be alphanumeric";
+    } else if (values.name.length < 4) {
+        errors.name = "Name must be at least 4 characters long";
     }
 
     if (!values.difficulty) {
         errors.difficulty = "Difficulty is required";
-    }
-
-    if (!values.duration) {
-        errors.duration = "Duration is required";
     }
 
     if (!values.season) {

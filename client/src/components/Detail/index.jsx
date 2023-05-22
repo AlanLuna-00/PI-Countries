@@ -6,7 +6,6 @@ import useGetCountryById from "../../hooks/useGetCountryById";
 const Detail = () => {
     const countryDetail = useGetCountryById();
     const activities = countryDetail.activities || [];
-
     return (
         <div className={Style.detail}>
             {countryDetail.name ? (
@@ -42,7 +41,9 @@ const Detail = () => {
                                     <tr key={i}>
                                         <td>{a.name}</td>
                                         <td>{a.difficulty}</td>
-                                        <td>{a.duration} hours</td>
+                                        <td>
+                                            {a.duration === null ? "No duration" : a.duration}
+                                        </td>
                                         <td>{a.season}</td>
                                     </tr>
                                 ))}

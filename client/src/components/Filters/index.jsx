@@ -61,6 +61,8 @@ const Filters = ({ setCurrentPage }) => {
         localStorage.removeItem('selectedActivity');
     };
 
+    const continents = ['Africa', 'Antarctica', 'Asia', 'Europe', 'North America', 'Oceania', 'South America'];
+
     return (
         <div className={Style.filtersContainer}>
             <div className={Style.selectContainer}>
@@ -121,27 +123,11 @@ const Filters = ({ setCurrentPage }) => {
                     <option value="all" className={Style.option}>
                         All
                     </option>
-                    <option value="Africa" className={Style.option}>
-                        Africa
-                    </option>
-                    <option value="Antarctica" className={Style.option}>
-                        Antarctica
-                    </option>
-                    <option value="Asia" className={Style.option}>
-                        Asia
-                    </option>
-                    <option value="Europe" className={Style.option}>
-                        Europe
-                    </option>
-                    <option value="North America" className={Style.option}>
-                        North America
-                    </option>
-                    <option value="Oceania" className={Style.option}>
-                        Oceania
-                    </option>
-                    <option value="South America" className={Style.option}>
-                        South America
-                    </option>
+                    {continents.map((c, i) => (
+                        <option key={i} value={c} className={Style.option}>
+                            {c}
+                        </option>
+                    ))}
                 </select>
             </div>
             <div className={Style.selectContainer}>
@@ -158,11 +144,15 @@ const Filters = ({ setCurrentPage }) => {
                     <option value="all" className={Style.option}>
                         All
                     </option>
-                    {activities.map((a) => (
-                        <option key={a.name} value={a.name} className={Style.option}>
-                            {a.name}
-                        </option>
-                    ))}
+                    {activities.length > 0 ?
+                        activities.map((a) => (
+                            <option key={a.id} value={a.name} className={Style.option}>
+                                {a.name}
+                            </option>
+                        )) : <option value="all" className={Style.option}>
+                            Create a activity
+                        </option>}
+
                 </select>
             </div>
             <div className={Style.selectContainer}>

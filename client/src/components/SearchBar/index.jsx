@@ -4,7 +4,7 @@ import Style from "./style.module.css";
 
 
 const SearchBar = ({ setCurrentPage }) => {
-    const [input, handleInputChange] = useGetCountryByName();
+    const [input, handleInputChange, handleButtonClick] = useGetCountryByName();
 
     const handleCountrySelection = (e) => {
         handleInputChange(e);
@@ -27,7 +27,11 @@ const SearchBar = ({ setCurrentPage }) => {
                 onChange={handleCountrySelection}
                 className={Style.searchBar}
                 placeholder='Search country...'
+                autoComplete="off"
             />
+            <button type="submit" className={Style.searchButton} onClick={handleButtonClick}>
+                Search
+            </button>
         </div>
     );
 };

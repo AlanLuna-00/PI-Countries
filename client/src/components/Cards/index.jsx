@@ -6,6 +6,7 @@ import Pagination from '../Pagination';
 import useGetCountries from '../../hooks/useGetCountries';
 
 
+
 const Cards = ({ currentPage, onPageChange, setCurrentPage }) => {
     const savePage = (page) => {
         localStorage.setItem('currentPage', page.toString());
@@ -22,11 +23,11 @@ const Cards = ({ currentPage, onPageChange, setCurrentPage }) => {
 
     const CARDS_PER_PAGE = 10;
 
-    const maxPage = Math.ceil(countries.length / CARDS_PER_PAGE);
+    const maxPage = Math.ceil(countries?.length / CARDS_PER_PAGE);
 
     const indexOfLastCard = page * CARDS_PER_PAGE;
     const indexOfFirstCard = indexOfLastCard - CARDS_PER_PAGE;
-    const displayedCountries = countries.slice(
+    const displayedCountries = countries?.slice(
         indexOfFirstCard,
         indexOfLastCard
     );
@@ -48,7 +49,9 @@ const Cards = ({ currentPage, onPageChange, setCurrentPage }) => {
 
     return (
         <>
-            <Filters setCurrentPage={setCurrentPage} />
+            <div className={Style.filtersContainer}>
+                <Filters setCurrentPage={setCurrentPage} />
+            </div>
             <div className={Style.cards}>
                 {displayedCountries.length > 0 ? (
                     displayedCountries.map((c, i) => (

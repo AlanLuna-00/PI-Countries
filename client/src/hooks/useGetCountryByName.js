@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { getCountryByName } from '../redux/actions';
+import { getCountryByName, loading, filterByName } from '../redux/actions';
 
 const useGetCountryByName = () => {
     const dispatch = useDispatch();
@@ -10,14 +10,15 @@ const useGetCountryByName = () => {
         setInput(e.target.value);
     };
 
+    const handleButtonClick = () => {
+        dispatch(getCountryByName(input));
+        setInput('');
+    };
+
     useEffect(() => {
-        if (input) {
-            dispatch(getCountryByName(input));
-        }
-    }, [dispatch, input]);
-
-
-    return [input, handleInputChange];
-}
+        dispatch(filterByName(input));
+    }, [input, dispatch]);
+    return [input, handleInputChange, handleButtonClick];
+};
 
 export default useGetCountryByName;

@@ -1,3 +1,4 @@
+import not from '../assets/notfounded.png';
 import {
     GET_COUNTRIES,
     GET_COUNTRY_BY_ID,
@@ -9,6 +10,7 @@ import {
     SORT_BY_ALPHABET,
     SORT_BY_ACTIVITY,
     POST_ACTIVITY,
+    FILTER_BY_NAME
 } from './actions';
 
 const initialState = {
@@ -20,7 +22,8 @@ const initialState = {
     filterContinent: 'all',
     filterPopulation: 'all',
     filterAlphabet: 'all',
-    filterActivity: 'all'
+    filterActivity: 'all',
+    loading: false
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -42,10 +45,9 @@ const rootReducer = (state = initialState, action) => {
                 country: {}
             }
         case GET_COUNTRY_BY_NAME:
-            let countryFounded = action.payload.length > 0 ? action.payload : [...state.allCountries];
             return {
                 ...state,
-                countries: countryFounded,
+                countries: action.payload,
             }
         case GET_ACTIVITIES:
             return {
@@ -75,7 +77,7 @@ const rootReducer = (state = initialState, action) => {
         case SORT_BY_ALPHABET:
             let sortedCountriesByAlphabet = action.payload === 'asc'
                 ? [...state.countries].sort((a, b) => a.name.localeCompare(b.name))
-                : [...state.countries].sort((a, b) => b.name.localeCompare(a.name));
+                : action.payload === 'sort' ? [...state.allCountries] : [...state.countries].sort((a, b) => b.name.localeCompare(a.name));
             return {
                 ...state,
                 countries: sortedCountriesByAlphabet,
@@ -88,6 +90,21 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 countries: sortedCountriesByActivity,
             };
+        case FILTER_BY_NAME:
+            let filteredCountriesByName = action.payload === '' ?
+                [...state.allCountries] :
+                [...state.allCountries].filter(c => c.name.toLowerCase().includes(action.payload.toLowerCase()));
+            if (filteredCountriesByName.length === 0) {
+                filteredCountriesByName = [{
+                    name: 'Not found',
+                    flag: `${not}`,
+                    continent: 'Not country, please delete the search...',
+                }]
+            }
+            return {
+                ...state,
+                countries: filteredCountriesByName
+            }
         default:
             return state;
     }
