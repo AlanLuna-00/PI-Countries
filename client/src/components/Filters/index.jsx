@@ -6,12 +6,13 @@ import useGetActivities from '../../hooks/useGetActivities';
 
 const Filters = ({ setCurrentPage }) => {
     const dispatch = useDispatch();
+
     const activities = useGetActivities();
 
-    const [selectedSort, setSelectedSort] = useState(localStorage.getItem('selectedSort') || 'sort');
-    const [selectedPopulation, setSelectedPopulation] = useState(localStorage.getItem('selectedPopulation') || 'population');
-    const [selectedContinent, setSelectedContinent] = useState(localStorage.getItem('selectedContinent') || 'all');
-    const [selectedActivity, setSelectedActivity] = useState(localStorage.getItem('selectedActivity') || 'all');
+    const [selectedSort, setSelectedSort] = useState(localStorage.getItem('selectedSort') || 'Sort');
+    const [selectedPopulation, setSelectedPopulation] = useState(localStorage.getItem('selectedPopulation') || 'Population');
+    const [selectedContinent, setSelectedContinent] = useState(localStorage.getItem('selectedContinent') || 'All');
+    const [selectedActivity, setSelectedActivity] = useState(localStorage.getItem('selectedActivity') || 'All');
 
     const handleSortByAlphabet = (e) => {
         const value = e.target.value;
@@ -35,6 +36,7 @@ const Filters = ({ setCurrentPage }) => {
         localStorage.setItem('selectedContinent', value);
         dispatch(sortByContinent(value));
         setCurrentPage(1);
+        setSelectedPopulation('Population');
     };
 
     const handleSortByActivities = (e) => {
@@ -123,8 +125,8 @@ const Filters = ({ setCurrentPage }) => {
                     <option value="all" className={Style.option}>
                         All
                     </option>
-                    {continents.map((c, i) => (
-                        <option key={i} value={c} className={Style.option}>
+                    {continents.map((c) => (
+                        <option key={c} value={c} className={Style.option}>
                             {c}
                         </option>
                     ))}
@@ -144,8 +146,8 @@ const Filters = ({ setCurrentPage }) => {
                     <option value="all" className={Style.option}>
                         All
                     </option>
-                    {activities.length > 0 ?
-                        activities.map((a) => (
+                    {activities?.length > 0 ?
+                        activities?.map((a) => (
                             <option key={a.id} value={a.name} className={Style.option}>
                                 {a.name}
                             </option>

@@ -8,9 +8,7 @@ const useGetCountries = () => {
 
     useEffect(() => {
         if (!countries?.length) {
-            setTimeout(() => {
-                dispatch(getCountries());
-            }, 1500)
+            dispatch(getCountries());
         }
     }, [countries, dispatch]);
 

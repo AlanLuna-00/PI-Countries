@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Style from "./style.module.css";
 import usePostActivity from "../../hooks/usePostActivity";
 import useGetCountries from "../../hooks/useGetCountries";
+import useGetActivities from "../../hooks/useGetActivities";
 import { Link } from "react-router-dom";
 import formValidate from "./formValidation";
 
@@ -9,14 +10,21 @@ const Form = () => {
     const [selectedCountries, setSelectedCountries] = useState([]);
     const [input, handleInputChange, handleSelectChange, handleDeleteCountry, handleSubmit] = usePostActivity({ setSelectedCountries });
     const countries = useGetCountries();
+    const activities = useGetActivities();
+
+    useEffect(() => {
+        localStorage.setItem('activities', JSON.stringify(activities));
+    }, [activities]);
+
     const errors = formValidate(input);
 
     const handleCountrySelection = (e) => {
         const selectedCountryId = e.target.value;
         const selectedCountry = countries.find((c) => c.id === selectedCountryId);
-        if (selectedCountry) {
+        if (!selectedCountries.find((c) => c.id === selectedCountryId)) {
             setSelectedCountries([...selectedCountries, selectedCountry]);
         }
+
     };
 
     useEffect(() => {
@@ -46,12 +54,13 @@ const Form = () => {
                         value={input.name}
                         onChange={handleInputChange}
                         className={Style.input}
+                        autoComplete="off"
                     />
                     {errors.name && <span className={Style.error}>{errors.name}</span>}
                 </div>
                 <div className={Style.inputContainer}>
                     <label htmlFor="difficulty" className={Style.label}>Difficulty <Required /></label>
-                    <select id='difficulty' name="difficulty" className={Style.select} onChange={handleInputChange}>
+                    <select id='difficulty' name="difficulty" className={Style.select} onChange={handleInputChange} value={input.difficulty}>
                         <option value='' className={Style.option}>Select difficulty</option>
                         {Array.from(Array(5).keys()).map((number) => (
                             <option key={number} value={number + 1} className={Style.option}>
@@ -63,9 +72,9 @@ const Form = () => {
                 </div>
                 <div className={Style.inputContainer}>
                     <label htmlFor="duration" className={Style.label}>Duration</label>
-                    <select id='duration' name="duration" className={Style.select} onChange={handleInputChange}>
+                    <select id='duration' name="duration" className={Style.select} onChange={handleInputChange} value={input.duration}>
                         <option value={null} className={Style.option}>Select duration</option>
-                        {Array.from(Array(5).keys()).map((number) => (
+                        {Array.from(Array(12).keys()).map((number) => (
                             <option key={number} value={number + 1} className={Style.option}>
                                 {number + 1} {number + 1 === 1 ? "hour" : "hours"}
                             </option>
@@ -74,7 +83,7 @@ const Form = () => {
                 </div>
                 <div className={Style.inputContainer}>
                     <label htmlFor="season" className={Style.label}>Season <Required /></label>
-                    <select id='season' name="season" className={Style.select} onChange={handleInputChange}>
+                    <select id='season' name="season" className={Style.select} onChange={handleInputChange} value={input.season}>
                         <option value='' className={Style.option}>Select season</option>
                         {seasons.map((season, i) => (
                             <option key={i} value={season} className={Style.option}>{season}</option>
@@ -89,6 +98,7 @@ const Form = () => {
                     <select
                         id="countries"
                         name="countries"
+                        value={input.countriesID}
                         className={Style.select}
                         onChange={(e) => {
                             handleSelectChange(e);

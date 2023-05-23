@@ -49,7 +49,9 @@ const usePostActivity = ({ setSelectedCountries }) => {
         });
         setSelectedCountries([]);
         navigate('/home');
-        console.log(input);
+        setTimeout(() => {
+            dispatch(getCountries());
+        }, 20);
     };
 
     useEffect(() => {

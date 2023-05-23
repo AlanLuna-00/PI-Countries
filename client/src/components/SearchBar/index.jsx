@@ -30,7 +30,7 @@ const SearchBar = ({ setCurrentPage }) => {
                 autoComplete="off"
             />
             <button type="submit" className={Style.searchButton} onClick={handleButtonClick}>
-                Search
+                Search by API
             </button>
         </div>
     );

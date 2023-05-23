@@ -15,8 +15,8 @@ const Detail = () => {
                         alt={countryDetail.name}
                         className={Style.detailFlag}
                     />
-                    <h1 className={Style.detailName}>{countryDetail.name}</h1>
-                    <p className={Style.detailContinent}>{countryDetail.continent}</p>
+                    <h1 className={Style.detailName}><b>{countryDetail.name}</b></h1>
+                    <p className={Style.detailContinent}><b>{countryDetail.continent}</b></p>
                     <p className={Style.detailCapital}>Capital: {countryDetail.capital}</p>
                     <p className={Style.detailSubregion}>
                         Subregion: {countryDetail.subregion}
@@ -25,7 +25,7 @@ const Detail = () => {
                     <p className={Style.detailPopulation}>
                         Population: {countryDetail.population}
                     </p>
-                    <p className={Style.detailActivities}>Actividades turisticas del pais:</p>
+                    <p className={Style.detailActivities}>Tourist activities in the country:</p>
                     {activities.length > 0 ? (
                         <table className={Style.detailActivityTable}>
                             <thead>
@@ -50,7 +50,7 @@ const Detail = () => {
                             </tbody>
                         </table>
                     ) : (
-                        <p className={Style.detailActivityName}>No activities</p>
+                        <p className={Style.detailActivityName}>No activities loaded</p>
                     )}
                     <Link to="/home">
                         <button className={Style.detailButton}>Back</button>
