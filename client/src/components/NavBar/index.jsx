@@ -17,6 +17,11 @@ const Navbar = () => {
             <div className={Style.rightSection}>
                 <ul className={Style.links}>
                     <li>
+                        <Link to="/" className={Style.link}>
+                            Start
+                        </Link>
+                    </li>
+                    <li>
                         <Link to="/home" className={Style.link}>
                             Home
                         </Link>
