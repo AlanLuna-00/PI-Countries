@@ -5,7 +5,6 @@ import useGetCountries from "../../hooks/useGetCountries";
 import useGetActivities from "../../hooks/useGetActivities";
 import { Link } from "react-router-dom";
 import formValidate from "./formValidation";
-import Navbar from "../NavBar";
 
 const Form = () => {
     const [selectedCountries, setSelectedCountries] = useState([]);
