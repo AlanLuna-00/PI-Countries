@@ -17,10 +17,6 @@
     margin: 0 4px;
 }
 
-.pagination button:hover {
-    background-color: #eee;
-}
-
 .pagination button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
