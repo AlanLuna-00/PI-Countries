@@ -4,66 +4,82 @@ import { useDispatch } from 'react-redux';
 import { sortByContinent, sortByPopulation, sortByAlphabet, sortByActivity } from '../../redux/actions';
 import useGetActivities from '../../hooks/useGetActivities';
 
-const Filters = ({ setCurrentPage }) => {
+const Filters = ({ setPage }) => {
     const dispatch = useDispatch();
-
     const activities = useGetActivities();
 
-    const [selectedSort, setSelectedSort] = useState(localStorage.getItem('selectedSort') || 'Sort');
-    const [selectedPopulation, setSelectedPopulation] = useState(localStorage.getItem('selectedPopulation') || 'Population');
-    const [selectedContinent, setSelectedContinent] = useState(localStorage.getItem('selectedContinent') || 'All');
-    const [selectedActivity, setSelectedActivity] = useState(localStorage.getItem('selectedActivity') || 'All');
+    const initialFilters = {
+        selectedSort: localStorage.getItem('selectedSort') || 'Sort',
+        selectedPopulation: localStorage.getItem('selectedPopulation') || 'Population',
+        selectedContinent: localStorage.getItem('selectedContinent') || 'All',
+        selectedActivity: localStorage.getItem('selectedActivity') || 'All',
+    };
+
+    const [filters, setFilters] = useState(initialFilters);
 
     const handleSortByAlphabet = (e) => {
         const value = e.target.value;
-        setSelectedSort(value);
-        localStorage.setItem('selectedSort', value);
-        localStorage.setItem('selectedPopulation', 'Population');
-        setSelectedPopulation('population');
+        const updatedFilters = {
+            ...filters,
+            selectedSort: value,
+            selectedPopulation: 'Population',
+        };
+        setFilters(updatedFilters);
         dispatch(sortByAlphabet(value));
-        setCurrentPage(1);
+        setPage(1);
     };
 
     const handleSortByPopulation = (e) => {
         const value = e.target.value;
-        setSelectedPopulation(value);
-        localStorage.setItem('selectedPopulation', value);
-        localStorage.setItem('selectedSort', 'Sort');
-        setSelectedSort('Sort');
+        const updatedFilters = {
+            ...filters,
+            selectedPopulation: value,
+            selectedSort: 'Sort',
+        };
+        setFilters(updatedFilters);
         dispatch(sortByPopulation(value));
-        setCurrentPage(1);
+        setPage(1);
     };
 
     const handleSortByContinent = (e) => {
         const value = e.target.value;
-        setSelectedContinent(value);
-        localStorage.setItem('selectedContinent', value);
+        const updatedFilters = {
+            ...filters,
+            selectedContinent: value,
+        };
+        setFilters(updatedFilters);
         dispatch(sortByContinent(value));
-        setCurrentPage(1);
+        setPage(1);
     };
 
     const handleSortByActivities = (e) => {
         const value = e.target.value;
-        setSelectedActivity(value);
-        localStorage.setItem('selectedActivity', value);
+        const updatedFilters = {
+            ...filters,
+            selectedActivity: value,
+        };
+        setFilters(updatedFilters);
         dispatch(sortByActivity(value));
-        setCurrentPage(1);
+        setPage(1);
     };
 
     const handleCleanFilters = () => {
-        setSelectedSort('sort');
-        setSelectedPopulation('population');
-        setSelectedContinent('all');
-        setSelectedActivity('all');
-        dispatch(sortByContinent('all'));
-        dispatch(sortByPopulation('population'));
-        dispatch(sortByAlphabet('sort'));
-        dispatch(sortByActivity('all'));
-        setCurrentPage(1);
+        const updatedFilters = {
+            selectedSort: 'sort',
+            selectedPopulation: 'population',
+            selectedContinent: 'all',
+            selectedActivity: 'all',
+        };
+        setFilters(updatedFilters);
+        dispatch(sortByContinent('All'));
+        dispatch(sortByPopulation('Population'));
+        dispatch(sortByAlphabet('Sort'));
+        dispatch(sortByActivity('All'));
         localStorage.removeItem('selectedSort');
         localStorage.removeItem('selectedPopulation');
         localStorage.removeItem('selectedContinent');
         localStorage.removeItem('selectedActivity');
+        setPage(1);
     };
 
     const continents = ['Africa', 'Antarctica', 'Asia', 'Europe', 'North America', 'Oceania', 'South America'];
@@ -78,11 +94,11 @@ const Filters = ({ setCurrentPage }) => {
                     id="sort"
                     name="Sort"
                     className={Style.select}
-                    value={selectedSort}
+                    value={filters.selectedSort}
                     onChange={handleSortByAlphabet}
                 >
-                    <option value="sort" className={Style.option}>
-                        Sort
+                    <option value="Sort" className={Style.option}>
+                        Sort (A-Z)
                     </option>
                     <option value="asc" className={Style.option}>
                         Name (A-Z)
@@ -100,11 +116,11 @@ const Filters = ({ setCurrentPage }) => {
                     id="population"
                     name="Population"
                     className={Style.select}
-                    value={selectedPopulation}
+                    value={filters.selectedPopulation}
                     onChange={handleSortByPopulation}
                 >
-                    <option value="population" className={Style.option}>
-                        Population
+                    <option value="Population" className={Style.option}>
+                        Population (=)
                     </option>
                     <option value="high" className={Style.option}>
                         Highest (↑)
@@ -122,10 +138,10 @@ const Filters = ({ setCurrentPage }) => {
                     id="continents"
                     name="Continents"
                     className={Style.select}
-                    value={selectedContinent}
+                    value={filters.selectedContinent}
                     onChange={handleSortByContinent}
                 >
-                    <option value="all" className={Style.option}>
+                    <option value="All" className={Style.option}>
                         All
                     </option>
                     {continents.map((c) => (
@@ -143,10 +159,10 @@ const Filters = ({ setCurrentPage }) => {
                     id="activities"
                     name="Activities"
                     className={Style.select}
-                    value={selectedActivity}
+                    value={filters.selectedActivity}
                     onChange={handleSortByActivities}
                 >
-                    <option value="all" className={Style.option}>
+                    <option value="All" className={Style.option}>
                         All
                     </option>
                     {activities?.length > 0 ?
@@ -154,10 +170,9 @@ const Filters = ({ setCurrentPage }) => {
                             <option key={a.id} value={a.name} className={Style.option}>
                                 {a.name}
                             </option>
-                        )) : <option value="all" className={Style.option}>
-                            Create a activity
+                        )) : <option value="All" className={Style.option}>
+                            Create an activity
                         </option>}
-
                 </select>
             </div>
             <div className={Style.selectContainer}>

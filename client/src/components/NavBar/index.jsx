@@ -6,7 +6,7 @@ import logo from '../../assets/title.png'
 import { useLocation } from 'react-router-dom';
 
 
-const Navbar = ({ setCurrentPage }) => {
+const Navbar = () => {
     const location = useLocation();
     return (
         <nav className={Style.navbar}>
@@ -27,7 +27,7 @@ const Navbar = ({ setCurrentPage }) => {
                         </Link>
                     </li>
                     <li>
-                        {location !== '/activities' && <SearchBar setCurrentPage={setCurrentPage} />}
+                        {location !== '/activities' && <SearchBar />}
                     </li>
                 </ul>
             </div>

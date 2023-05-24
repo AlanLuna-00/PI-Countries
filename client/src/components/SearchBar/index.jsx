@@ -3,19 +3,17 @@ import useGetCountryByName from "../../hooks/useGetCountryByName";
 import Style from "./style.module.css";
 
 
-const SearchBar = ({ setCurrentPage }) => {
+const SearchBar = () => {
     const [input, handleInputChange, handleButtonClick] = useGetCountryByName();
 
     const handleCountrySelection = (e) => {
         handleInputChange(e);
-        setCurrentPage(1); // Restablecer la página actual a 1 después de una búsqueda exitosa
+        localStorage.setItem('currentPage', 1);
     };
 
     useEffect(() => {
-        if (input === '') {
-            setCurrentPage(1); // Restablecer la página actual a 1 después de borrar el campo de búsqueda
-        }
-    }, [input, setCurrentPage]);
+        localStorage.setItem('currentPage', 1);
+    }, [input]);
 
     return (
         <div className={Style.searchBarContainer}>

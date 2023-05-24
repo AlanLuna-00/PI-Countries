@@ -5,24 +5,19 @@ import Filters from '../Filters';
 import Pagination from '../Pagination';
 import useGetCountries from '../../hooks/useGetCountries';
 
-
-
-const Cards = ({ currentPage, onPageChange, setCurrentPage }) => {
+const Cards = () => {
     const savePage = (page) => {
         localStorage.setItem('currentPage', page.toString());
     };
 
     const countries = useGetCountries();
 
-    const getSavedPage = () => {
+    const [page, setPage] = useState(() => {
         const savedPage = localStorage.getItem('currentPage');
-        return savedPage ? parseInt(savedPage, 10) : null;
-    };
-
-    const [page, setPage] = useState(getSavedPage() || currentPage);
+        return savedPage ? parseInt(savedPage, 10) : 1;
+    });
 
     const CARDS_PER_PAGE = 10;
-
     const maxPage = Math.ceil(countries?.length / CARDS_PER_PAGE);
 
     const indexOfLastCard = page * CARDS_PER_PAGE;
@@ -34,35 +29,41 @@ const Cards = ({ currentPage, onPageChange, setCurrentPage }) => {
 
     const handlePageChange = (pageNumber) => {
         setPage(pageNumber);
-        onPageChange(pageNumber);
     };
 
     useEffect(() => {
         savePage(page);
     }, [page]);
 
-    useEffect(() => {
-        if (currentPage !== page) {
-            setPage(currentPage);
-        }
-    }, [currentPage, page]);
+
 
     return (
         <>
             <div className={Style.filtersContainer}>
-                <Filters setCurrentPage={setCurrentPage} />
+                <Filters setPage={setPage} />
             </div>
             <div className={Style.cards}>
                 {displayedCountries.length > 0 ? (
                     displayedCountries.map((c, i) => (
-                        <Card key={i} name={c.name} flag={c.flag} continent={c.continent} id={c.id} notFound={c.notFound} />
+                        <Card
+                            key={i}
+                            name={c.name}
+                            flag={c.flag}
+                            continent={c.continent}
+                            id={c.id}
+                            notFound={c.notFound}
+                        />
                     ))
                 ) : (
                     <div className={Style.spinnerLoading}></div>
                 )}
             </div>
             <div className={Style.paginationContainer}>
-                <Pagination currentPage={page} totalPages={maxPage} onPageChange={handlePageChange} />
+                <Pagination
+                    currentPage={page}
+                    totalPages={maxPage}
+                    onPageChange={handlePageChange}
+                />
             </div>
         </>
     );
