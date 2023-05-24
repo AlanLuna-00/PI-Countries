@@ -9,28 +9,19 @@ const formValidate = (values) => {
         errors.name = "Name must be between 4 and 20 characters";
     }
 
-    // no repetir nombre de actividad
     if (values.name.trim()) {
         let activities = JSON.parse(localStorage.getItem('activities'));
         if (activities) {
             let activity = activities.find(a => a.name.toLowerCase() === values.name.toLowerCase());
-            if (activity) {
-                errors.name = "Activity already exists";
-            }
+            activity && (errors.name = "Activity already exists");
         }
     }
 
-    if (!values.difficulty) {
-        errors.difficulty = "Difficulty is required";
-    }
+    !values.difficulty && (errors.difficulty = "Difficulty is required");
 
-    if (!values.season) {
-        errors.season = "Season is required";
-    }
+    !values.season && (errors.season = "Season is required");
 
-    if (values.countriesID.length === 0) {
-        errors.countriesID = "Select at least one country";
-    }
+    values.countriesID.length === 0 && (errors.countriesID = "Select at least one country");
 
     return errors;
 };

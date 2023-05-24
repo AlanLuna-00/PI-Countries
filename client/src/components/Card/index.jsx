@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Style from './style.module.css';
+import not from '../../assets/notfounded.png';
 
 function HiCursorClick(props) {
     return (
@@ -23,18 +24,28 @@ function HiCursorClick(props) {
     );
 }
 
-const Card = ({ name, flag, continent, id }) => {
+const Card = ({ name, flag, continent, id, notFound }) => {
     const simplifiedName = name.length > 15 ? name.substring(0, 15) + '...' : name;
 
     return (
         <div className={Style.card}>
-            <Link to={`/countries/${id}`} className={Style.cardLinks}>
-                <img src={flag} alt={name} className={Style.cardFlag} />
-                <h3 className={Style.cardName}>
-                    {simplifiedName} <HiCursorClick />
-                </h3>
-                <p className={Style.cardContinent}>{continent}</p>
-            </Link>
+            {notFound ? (
+                <div className={Style.notFound}>
+                    <h3>Country not found</h3>
+                    <img src={not} alt="not found" />
+                    <p>Please clean filters or search bar</p>
+                </div>
+            ) : (
+                <>
+                    <Link to={`/countries/${id}`} className={Style.cardLinks}>
+                        <img src={flag} alt={name} className={Style.cardFlag} />
+                        <h3 className={Style.cardName}>
+                            {simplifiedName} <HiCursorClick />
+                        </h3>
+                        <p className={Style.cardContinent}>{continent}</p>
+                    </Link>
+                </>
+            )}
         </div>
     );
 };

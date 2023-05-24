@@ -18,6 +18,8 @@ const Filters = ({ setCurrentPage }) => {
         const value = e.target.value;
         setSelectedSort(value);
         localStorage.setItem('selectedSort', value);
+        localStorage.setItem('selectedPopulation', 'Population');
+        setSelectedPopulation('population');
         dispatch(sortByAlphabet(value));
         setCurrentPage(1);
     };
@@ -26,6 +28,8 @@ const Filters = ({ setCurrentPage }) => {
         const value = e.target.value;
         setSelectedPopulation(value);
         localStorage.setItem('selectedPopulation', value);
+        localStorage.setItem('selectedSort', 'Sort');
+        setSelectedSort('Sort');
         dispatch(sortByPopulation(value));
         setCurrentPage(1);
     };
@@ -36,7 +40,6 @@ const Filters = ({ setCurrentPage }) => {
         localStorage.setItem('selectedContinent', value);
         dispatch(sortByContinent(value));
         setCurrentPage(1);
-        setSelectedPopulation('Population');
     };
 
     const handleSortByActivities = (e) => {
@@ -69,7 +72,7 @@ const Filters = ({ setCurrentPage }) => {
         <div className={Style.filtersContainer}>
             <div className={Style.selectContainer}>
                 <label htmlFor="sort" className={Style.label}>
-                    Sort
+                    Alphabet (Sort)
                 </label>
                 <select
                     id="sort"
@@ -91,7 +94,7 @@ const Filters = ({ setCurrentPage }) => {
             </div>
             <div className={Style.selectContainer}>
                 <label htmlFor="population" className={Style.label}>
-                    Population
+                    Population (Sort)
                 </label>
                 <select
                     id="population"
@@ -113,7 +116,7 @@ const Filters = ({ setCurrentPage }) => {
             </div>
             <div className={Style.selectContainer}>
                 <label htmlFor="continents" className={Style.label}>
-                    Continents
+                    Continents (Filter)
                 </label>
                 <select
                     id="continents"
@@ -134,7 +137,7 @@ const Filters = ({ setCurrentPage }) => {
             </div>
             <div className={Style.selectContainer}>
                 <label htmlFor="activities" className={Style.label}>
-                    Activities
+                    Activities (Filter)
                 </label>
                 <select
                     id="activities"

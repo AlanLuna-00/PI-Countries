@@ -19,10 +19,6 @@ const initialState = {
     country: {},
     activities: [],
     allActivities: [],
-    filterContinent: 'all',
-    filterPopulation: 'all',
-    filterAlphabet: 'all',
-    filterActivity: 'all',
     loading: false
 }
 
@@ -77,15 +73,24 @@ const rootReducer = (state = initialState, action) => {
         case SORT_BY_ALPHABET:
             let sortedCountriesByAlphabet = action.payload === 'asc'
                 ? [...state.countries].sort((a, b) => a.name.localeCompare(b.name))
-                : action.payload === 'sort' ? [...state.allCountries] : [...state.countries].sort((a, b) => b.name.localeCompare(a.name));
+                : [...state.countries].sort((a, b) => b.name.localeCompare(a.name));
             return {
                 ...state,
                 countries: sortedCountriesByAlphabet,
             };
         case SORT_BY_ACTIVITY:
             let sortedCountriesByActivity = action.payload === 'all'
-                ? [...state.allCountries]
-                : [...state.allCountries].filter(c => c.activities?.some(a => a.name === action.payload));
+                ? [...state.countries]
+                : [...state.countries].filter(c => c.activities?.some(a => a.name === action.payload));
+            let continent = localStorage.getItem('continent');
+            if (sortedCountriesByActivity.length === 0) {
+                sortedCountriesByActivity = [{
+                    name: `Please clean the filter...`,
+                    flag: `${not}`,
+                    continent: `${action.payload} not found in ${continent}...`,
+                    notFound: true
+                }]
+            }
             return {
                 ...state,
                 countries: sortedCountriesByActivity,
@@ -99,6 +104,7 @@ const rootReducer = (state = initialState, action) => {
                     name: 'Not found',
                     flag: `${not}`,
                     continent: 'Not country, please delete the search...',
+                    notFound: true
                 }]
             }
             return {

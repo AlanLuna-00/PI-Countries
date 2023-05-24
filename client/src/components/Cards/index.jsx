@@ -55,7 +55,7 @@ const Cards = ({ currentPage, onPageChange, setCurrentPage }) => {
             <div className={Style.cards}>
                 {displayedCountries.length > 0 ? (
                     displayedCountries.map((c, i) => (
-                        <Card key={i} name={c.name} flag={c.flag} continent={c.continent} id={c.id} />
+                        <Card key={i} name={c.name} flag={c.flag} continent={c.continent} id={c.id} notFound={c.notFound} />
                     ))
                 ) : (
                     <div className={Style.spinnerLoading}></div>

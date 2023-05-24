@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 import Style from './style.module.css';
 import SearchBar from '../SearchBar';
 import logo from '../../assets/title.png'
+import { useLocation } from 'react-router-dom';
 
 
 const Navbar = ({ setCurrentPage }) => {
+    const location = useLocation();
     return (
         <nav className={Style.navbar}>
             <div className={Style.leftSection}>
@@ -25,7 +27,7 @@ const Navbar = ({ setCurrentPage }) => {
                         </Link>
                     </li>
                     <li>
-                        <SearchBar setCurrentPage={setCurrentPage} />
+                        {location !== '/activities' && <SearchBar setCurrentPage={setCurrentPage} />}
                     </li>
                 </ul>
             </div>
