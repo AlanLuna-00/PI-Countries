@@ -13,7 +13,7 @@ describe('Country routes - Argentina', () => {
         .then(() => Country.create({
             id: 'ARG',
             name: 'Argentina',
-            flag: 'arg.png',
+            flag: 'arg.svg',
             continent: 'South America',
             capital: 'Buenos Aires',
             population: 45195774,
@@ -24,26 +24,22 @@ describe('Country routes - Argentina', () => {
             const res = await request(app).get('/countries/ARG');
 
             expect(res.status).to.equal(200);
-
             const country = res.body;
             expect(country).to.be.an('object');
             expect(country.id).to.equal('ARG');
             expect(country.name).to.equal('Argentina');
-            expect(country.flag).to.equal('arg.png');
+            expect(country.flag).to.equal('arg.svg');
             expect(country.continent).to.equal('South America');
             expect(country.capital).to.equal('Buenos Aires');
             expect(country.population).to.equal(45195774);
-            // Agrega más expectativas según la respuesta esperada para Argentina
-        });
-
-        it('should return 404 for non-existent country', async () => {
-            const res = await request(app).get('/countries/XYZ');
-
-            expect(res.status).to.equal(404);
-            // Agrega más expectativas según la respuesta esperada para un país que no existe
         });
     });
 
-    // Agrega más pruebas para otros endpoints específicos de Argentina
+    describe('GET /countries/XYZ', () => {
+        it('should return 404 for non-existent country', async () => {
+            const res = await request(app).get('/countries/messi');
 
+            expect(res.status).to.equal(404);
+        });
+    })
 });
