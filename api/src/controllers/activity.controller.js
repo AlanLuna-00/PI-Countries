@@ -4,7 +4,7 @@ const postActivity = async (req, res) => {
     const { name, difficulty, duration, season, countriesID } = req.body;
     try {
         const activity = await createActivity({ name, difficulty, duration, season, countriesID });
-        res.status(200).json(activity)
+        res.status(200).json(activity);
     } catch (error) {
         res.status(500).json({ message: 'Error creating activity' });
     }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getCountries, postActivity } from '../redux/actions';
+import { getCountries, postActivity, getActivities } from '../redux/actions';
 
 const usePostActivity = ({ setSelectedCountries }) => {
     const dispatch = useDispatch();
@@ -40,11 +40,13 @@ const usePostActivity = ({ setSelectedCountries }) => {
         setInput({
             name: '',
             difficulty: '',
-            duration: '',
+            duration: null,
             season: '',
             countriesID: []
         });
         setSelectedCountries([]);
+        console.log(input)
+        dispatch(getActivities());
         dispatch(getCountries());
     };
 
