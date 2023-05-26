@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getCountries, postActivity } from '../redux/actions';
-import { useNavigate } from 'react-router-dom';
 
 const usePostActivity = ({ setSelectedCountries }) => {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [input, setInput] = useState({
         name: '',
@@ -33,7 +31,6 @@ const usePostActivity = ({ setSelectedCountries }) => {
             ...input,
             countriesID: input.countriesID.filter((country) => country !== countryId)
         });
-        console.log(input);
     };
 
 
@@ -48,10 +45,7 @@ const usePostActivity = ({ setSelectedCountries }) => {
             countriesID: []
         });
         setSelectedCountries([]);
-        navigate('/home');
-        setTimeout(() => {
-            dispatch(getCountries());
-        }, 20);
+        dispatch(getCountries());
     };
 
     useEffect(() => {

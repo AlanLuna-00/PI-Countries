@@ -10,7 +10,15 @@ export const SORT_BY_ALPHABET = 'SORT_BY_ALPHABET'
 export const SORT_BY_ACTIVITY = 'SORT_BY_ACTIVITY'
 export const POST_ACTIVITY = 'POST_ACTIVITY'
 export const FILTER_BY_NAME = 'FILTER_BY_NAME'
+export const FILTER_IF_HAS_ACTIVITY = 'FILTER_IF_HAS_ACTIVITY'
 
+
+export const filterIfHasActivity = (hasActivity) => {
+    return {
+        type: FILTER_IF_HAS_ACTIVITY,
+        payload: hasActivity
+    }
+}
 
 export const filterByName = (name) => {
     return {

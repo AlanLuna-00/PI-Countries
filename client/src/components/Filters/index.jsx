@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Style from './style.module.css';
 import { useDispatch } from 'react-redux';
-import { sortByContinent, sortByPopulation, sortByAlphabet, sortByActivity } from '../../redux/actions';
+import { sortByContinent, sortByPopulation, sortByAlphabet, sortByActivity, filterIfHasActivity } from '../../redux/actions';
 import useGetActivities from '../../hooks/useGetActivities';
 
 const Filters = ({ setPage }) => {
@@ -45,6 +45,7 @@ const Filters = ({ setPage }) => {
         const value = e.target.value;
         const updatedFilters = {
             ...filters,
+            selectedActivity: 'All',
             selectedContinent: value,
         };
         setFilters(updatedFilters);
@@ -57,18 +58,32 @@ const Filters = ({ setPage }) => {
         const updatedFilters = {
             ...filters,
             selectedActivity: value,
+            selectedContinent: 'All',
         };
         setFilters(updatedFilters);
         dispatch(sortByActivity(value));
         setPage(1);
     };
 
+    const handleFilterIfHasActivity = () => {
+        const updatedFilters = {
+            selectedActivity: 'All',
+            selectedContinent: 'All',
+            selectedSort: 'Sort',
+            selectedPopulation: 'Population',
+        };
+        setFilters(updatedFilters);
+        dispatch(filterIfHasActivity());
+        setPage(1);
+    };
+
+
     const handleCleanFilters = () => {
         const updatedFilters = {
-            selectedSort: 'sort',
-            selectedPopulation: 'population',
-            selectedContinent: 'all',
-            selectedActivity: 'all',
+            selectedSort: 'Sort',
+            selectedPopulation: 'Population',
+            selectedContinent: 'All',
+            selectedActivity: 'All',
         };
         setFilters(updatedFilters);
         dispatch(sortByContinent('All'));
@@ -97,7 +112,7 @@ const Filters = ({ setPage }) => {
                     value={filters.selectedSort}
                     onChange={handleSortByAlphabet}
                 >
-                    <option value="Sort" className={Style.option}>
+                    <option value="All" className={Style.option}>
                         Sort (A-Z)
                     </option>
                     <option value="asc" className={Style.option}>
@@ -174,6 +189,11 @@ const Filters = ({ setPage }) => {
                             Create an activity
                         </option>}
                 </select>
+            </div>
+            <div className={Style.selectContainer}>
+                <button id="clean" className={Style.button} onClick={handleFilterIfHasActivity}>
+                    Only has activities
+                </button>
             </div>
             <div className={Style.selectContainer}>
                 <button id="clean" className={Style.button} onClick={handleCleanFilters}>

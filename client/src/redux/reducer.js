@@ -10,7 +10,8 @@ import {
     SORT_BY_ALPHABET,
     SORT_BY_ACTIVITY,
     POST_ACTIVITY,
-    FILTER_BY_NAME
+    FILTER_BY_NAME,
+    FILTER_IF_HAS_ACTIVITY
 } from './actions';
 
 const initialState = {
@@ -56,16 +57,8 @@ const rootReducer = (state = initialState, action) => {
                 activities: [...state.activities, action.payload]
             }
         case SORT_BY_CONTINENT:
-            const allCountries = [...state.countries];
-            let continentFiltered = action.payload === 'All' ? [...state.allCountries] : allCountries.filter(c => c.continent === action.payload);
-            if (continentFiltered.length === 0) {
-                continentFiltered = [{
-                    name: 'Not found',
-                    flag: `${not}`,
-                    continent: 'Not country, please delete the search...',
-                    notFound: true
-                }]
-            }
+            const stateGlobal = [...state.countries];
+            let continentFiltered = action.payload === 'All' ? [...state.allCountries] : stateGlobal.filter(c => c.continent === action.payload);
             return {
                 ...state,
                 countries: continentFiltered,
@@ -73,7 +66,7 @@ const rootReducer = (state = initialState, action) => {
         case SORT_BY_POPULATION:
             const sortedCountriesByPopulation = action.payload === 'high'
                 ? [...state.countries].sort((a, b) => b.population - a.population)
-                : action.payload = 'Population' ? [...state.allCountries] : [...state.countries].sort((a, b) => a.population - b.population);
+                : action.payload === 'Population' ? [...state.allCountries] : [...state.countries].sort((a, b) => a.population - b.population);
             return {
                 ...state,
                 countries: sortedCountriesByPopulation,
@@ -81,23 +74,15 @@ const rootReducer = (state = initialState, action) => {
         case SORT_BY_ALPHABET:
             let sortedCountriesByAlphabet = action.payload === 'asc'
                 ? [...state.countries].sort((a, b) => a.name.localeCompare(b.name))
-                : action.payload === 'Sort' ? [...state.allCountries] : [...state.countries].sort((a, b) => b.name.localeCompare(a.name));
+                : action.payload === 'All' ? [...state.allCountries] : [...state.countries].sort((a, b) => b.name.localeCompare(a.name));
             return {
                 ...state,
                 countries: sortedCountriesByAlphabet,
             };
         case SORT_BY_ACTIVITY:
             let sortedCountriesByActivity = action.payload === 'All'
-                ? [...state.countries]
-                : [...state.countries].filter(c => c.activities?.some(a => a.name === action.payload));
-            if (sortedCountriesByActivity.length === 0) {
-                sortedCountriesByActivity = [{
-                    name: 'Not found',
-                    flag: `${not}`,
-                    continent: 'Not country, please delete the search...',
-                    notFound: true
-                }]
-            }
+                ? [...state.allCountries]
+                : [...state.allCountries].filter(c => c.activities?.some(a => a.name === action.payload));
             return {
                 ...state,
                 countries: sortedCountriesByActivity,
@@ -118,6 +103,22 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 countries: filteredCountriesByName
             }
+        case FILTER_IF_HAS_ACTIVITY:
+            // countries with activities
+            let countriesWithActivity = [...state.allCountries].filter(c => c.activities?.length > 0)
+            if (countriesWithActivity.length === 0) {
+                countriesWithActivity = [{
+                    name: 'Not found',
+                    flag: `${not}`,
+                    continent: 'Not country, please delete the search...',
+                    notFound: true
+                }]
+            }
+            return {
+                ...state,
+                countries: countriesWithActivity,
+            };
+
         default:
             return state;
     }

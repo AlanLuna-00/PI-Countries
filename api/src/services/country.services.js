@@ -63,11 +63,11 @@ const getCountriesApi = async () => {
         }
 
         let allCountries = await Country.findAll({
-            include: {
+            include: { // incluyo actividades
                 model: Activity,
-                attributes: ['name', 'difficulty', 'duration', 'season'],
-                through: {
-                    attributes: [],
+                attributes: ['name', 'difficulty', 'duration', 'season'], // solo muestro estos atributos
+                through: { // incluyo la tabla intermedia
+                    attributes: [], // no muestro los atributos de la tabla intermedia
                 },
             },
         });

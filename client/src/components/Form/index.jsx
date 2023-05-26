@@ -21,10 +21,7 @@ const Form = () => {
     const handleCountrySelection = (e) => {
         const selectedCountryId = e.target.value;
         const selectedCountry = countries.find((c) => c.id === selectedCountryId);
-        if (!selectedCountries.find((c) => c.id === selectedCountryId)) {
-            setSelectedCountries([...selectedCountries, selectedCountry]);
-        }
-
+        setSelectedCountries([...selectedCountries, selectedCountry]);
     };
 
     useEffect(() => {
@@ -107,11 +104,14 @@ const Form = () => {
                             }}
                             multiple
                         >
-                            {sortCountries.map((c, i) => (
-                                <option key={i} value={c.id} className={Style.option}>
-                                    {c.name}
-                                </option>
-                            ))}
+                            {sortCountries.map((c, i) => {
+                                const isSelectedDisabled = selectedCountries.some((country) => country.id === c.id);
+                                return (
+                                    <option key={i} value={c.id} className={Style.option} disabled={isSelectedDisabled} >
+                                        {c.name}
+                                    </option>
+                                );
+                            })}
                         </select>
                         {errors.countriesID && <span className={Style.error}>{errors.countriesID}</span>}
                     </div>
@@ -145,8 +145,8 @@ const Form = () => {
                             Go Back
                         </Link>
                     </div>
-                </form>
-            </div>
+                </form >
+            </div >
         </>
     );
 };

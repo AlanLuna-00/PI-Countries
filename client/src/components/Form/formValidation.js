@@ -12,7 +12,7 @@ const formValidate = (values) => {
     if (values.name.trim()) {
         let activities = JSON.parse(localStorage.getItem('activities'));
         if (activities) {
-            let activity = activities.find(a => a.name.toLowerCase() === values.name.toLowerCase());
+            let activity = activities.find(a => a.name.toLowerCase().trim() === values.name.toLowerCase());
             activity && (errors.name = "Activity already exists");
         }
     }
